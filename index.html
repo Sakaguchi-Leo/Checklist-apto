@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Gerenciador do Apartamento • V3</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="app">
+<header class="hero"><div class="hero-top"><div><h1>Gerenciador do Apartamento <small style="font-size:.42em;opacity:.75">V3</small></h1><p>Compras, entregas, instalações, orçamento, garantias e pendências em um só lugar.</p></div><div id="today"></div></div><div class="toolbar"><button class="white" onclick="openItemModal()">+ Adicionar item</button><button class="glass" onclick="exportJSON()">Exportar backup</button><label class="file-label glass">Importar backup<input id="importJson" type="file" accept="application/json"></label><button class="glass" onclick="exportCSV()">Exportar CSV</button><button class="glass" onclick="window.print()">Imprimir / PDF</button><button class="danger" onclick="resetAll()">Restaurar padrão</button></div><div class="save-state" id="saveState">Salvamento automático ativo neste navegador</div></header>
+<section class="summary"><div class="metric"><span>Progresso</span><strong id="mProgress">0%</strong><small id="mCount">0 de 0</small></div><div class="metric"><span>Planejado</span><strong id="mPlanned">R$ 0</strong><small>itens aplicáveis</small></div><div class="metric"><span>Comprometido</span><strong id="mCommitted">R$ 0</strong><small>produto + frete + instalação</small></div><div class="metric"><span>Já pago</span><strong id="mPaid">R$ 0</strong><small>conforme situação</small></div><div class="metric"><span>Saldo projetado</span><strong id="mBalance">R$ 0</strong><small>planejado menos comprometido</small></div><div class="metric"><span>Itens atrasados</span><strong id="mLate">0</strong><small>entrega ou instalação</small></div></section>
+<section class="progress"><div class="progress-head"><span>Implantação do apartamento</span><span id="progressLabel">0%</span></div><div class="track"><div class="fill" id="progressFill"></div></div></section>
+<section class="nav"><div class="tabs" id="viewTabs"></div><div class="filters"><input id="search" aria-label="Buscar itens" placeholder="Buscar item, categoria, loja ou observação"><select id="phaseFilter"><option value="all">Todas as fases</option><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option></select><select id="categoryFilter"><option value="all">Todas as categorias</option></select><select id="statusFilter"><option value="all">Todos os status</option></select><select id="responsibleFilter" aria-label="Filtrar por responsável"><option value="all">Todos os responsáveis</option></select><select id="kindFilter" aria-label="Filtrar por classificação"><option value="all">Todas as classificações</option></select><button class="soft" onclick="clearFilters()">Limpar filtros</button></div></section>
+<div class="note" id="viewNote"></div>
+<main id="main"></main>
+<footer class="footer">Os valores são referências de planejamento. Confirme medidas, voltagem, instalação, regras do condomínio e garantia antes de comprar.</footer>
+</div>
+<div class="modal-backdrop" id="itemModal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1"><h2 id="modalTitle">Adicionar item</h2><div class="form-grid">
+<div class="form-group span2"><label class="required" for="fName">Item</label><input id="fName" class="field" maxlength="120"></div><div class="form-group"><label class="required" for="fCategory">Categoria</label><input id="fCategory" class="field" list="categoryList"></div>
+<div class="form-group"><label class="required" for="fPhase">Fase</label><select id="fPhase" class="field"><option>P0</option><option selected>P1</option><option>P2</option><option>P3</option></select></div><div class="form-group"><label for="fKind">Classificação</label><select id="fKind" class="field"><option>Essencial</option><option>Importante</option><option>Não essencial</option><option>Essencial conforme o caso</option></select></div><div class="form-group"><label for="fApplicable">Aplicabilidade</label><select id="fApplicable" class="field"><option value="true">Aplicável</option><option value="false">Não se aplica</option></select></div>
+<div class="form-group"><label for="fQty">Quantidade</label><input id="fQty" class="field" type="number" min="0.01" step="0.01" value="1"></div><div class="form-group"><label for="fMin">Estimativa mínima unitária</label><input id="fMin" class="field" type="number" min="0" step="0.01"></div><div class="form-group"><label for="fMax">Estimativa máxima unitária</label><input id="fMax" class="field" type="number" min="0" step="0.01"></div>
+<div class="form-group"><label for="fPlanned">Orçamento planejado total</label><input id="fPlanned" class="field" type="number" min="0" step="0.01"></div><div class="form-group"><label for="fResponsible">Responsável</label><input id="fResponsible" class="field" maxlength="50" placeholder="Leonardo, Rebeca..."></div><div class="form-group"><label for="fStatus">Situação</label><select id="fStatus" class="field"></select></div><div class="form-group"><label for="fWarrantyMonths">Garantia (meses)</label><input id="fWarrantyMonths" class="field" type="number" min="0" step="1" placeholder="Ex.: 12"></div>
+<div class="form-group span3"><label for="fNotes">Observação</label><input id="fNotes" class="field" maxlength="300" placeholder="Medidas, voltagem, marca, modelo ou requisito"></div></div><datalist id="categoryList"></datalist><div class="modal-actions"><button class="soft" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveItemModal()">Salvar item</button></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
